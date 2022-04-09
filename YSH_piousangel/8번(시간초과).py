@@ -8,12 +8,14 @@ def dfs(A, B):
     global answer
 
     if B == 1:
-        return A
+        return A % C
+       
+    recur = dfs(A,B//2)
         
     if B%2 != 0 :   
-        return dfs(A,B//2) * dfs(A,B//2) * A
+        return recur * recur * A % C
     else:
-        return dfs(A,B//2) * dfs(A,B//2)
+        return recur * recur % C
     
 answer = dfs(A, B)
 # print(answer)
