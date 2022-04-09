@@ -9,6 +9,13 @@ q2 = deque()
 
 # q2.append([1,2])
 # q2.append([3,4])
-print(n_list)
-print(q)
-print(q2)
+# print(n_list)
+# print(q)
+# print(q2)
+
+
+str1 = "hello"
+
+str2 = str1[:-1]
+
+print(str2)

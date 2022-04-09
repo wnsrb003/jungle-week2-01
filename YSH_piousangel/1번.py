@@ -18,7 +18,7 @@ for m in m_list :
     while end - start >= 0 :
 
         if m == n_list[mid] :
-            print(1)
+            print("1")
             break
         elif m > n_list[mid] :
             start = mid+1
@@ -28,7 +28,7 @@ for m in m_list :
         mid = (end+start)//2
 
     else:
-        print(0)
+        print("0")
 
 
 # for k in m_list :
