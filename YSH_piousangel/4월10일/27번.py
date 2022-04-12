@@ -1,5 +1,7 @@
 import sys
 import heapq
+import copy
+from collections import deque
 sys.stdin = open('sample.txt')
 input = sys.stdin.readline
 
@@ -16,47 +18,50 @@ for i in range(n):
         start = end
         end = temp
     if start not in start_list:
-        start_list.append(start)
-    min_value = min(min_value, start)
+        # start_list.append(start)
+        heapq.heappush(start_list, start)
+
     max_value = max(max_value, end)
     
     heapq.heappush(rail_heap, (start, end))
 
 
 len_L = int(input())
-# print(min_value, max_value)
-realAnswer = 0
-start_list.sort()
-print(start_list)
-for i in range(len(start_list)):
-    print(start_list[i])
-    if start_list[i] + len_L > max_value :
-        break
-    else:                                           #최소힙으류 구현했는데 콜백을 너무 많이 하는 것 같기도...
 
+realAnswer = 0
+# start_list.sort()
+# print(start_list)
+# for i in range(len(start_list)):
+temp_idx = 0
+while start_list :
+    print(start_list)
+    # print(start_list[i])
+    listOfStart = heapq.heappop(start_list)
+    if listOfStart + len_L > max_value :
+        break
+    else:                                           
+        if temp_idx != 0:
+            rail_heap = callback
         callback = []
         correctCnt = 0
+        print(rail_heap)
         while rail_heap :
-              
+            temp_idx = 1
             temp_rail = heapq.heappop(rail_heap)
-            # print(temp_rail[0], temp_rail[1])
-
-            if temp_rail[0] < start_list[i] :
-                # heapq.heappop(rail_heap)[0]
+            if temp_rail[0] < listOfStart :
                 continue
-            elif temp_rail[1] > start_list[i] + len_L :
-                callback.append(temp_rail)      
+            elif temp_rail[1] > listOfStart + len_L :
+                heapq.heappush(callback, temp_rail) 
             else:
-                callback.append(temp_rail)
-                # print(callback)
+                heapq.heappush(callback, temp_rail)
                 correctCnt += 1
 
-        else:
-            print("다시 콜백해주는 리스트:", callback)
-            for j in range(len(callback)):
-                
-                heapq.heappush(rail_heap, callback[j])
-        print("맞은 철로는? : " ,correctCnt)
+        # else:
+        #     print("다시 콜백해주는 리스트:", callback)
+        #     while callback:
+        #         heapq.heappush(rail_heap, heapq.heappop(callback))
+
+        # print("맞은 철로는? : " ,correctCnt)
         realAnswer = max(realAnswer, correctCnt)
 
 print(realAnswer)
