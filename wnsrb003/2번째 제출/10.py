@@ -13,55 +13,33 @@ while True:
     n.append(list(map(int, inp))[1:])
 
 for 그램 in n:
-    길이 = []
+    스택 = []   
+    idx = 0 
     최대너비 = 0
-    index = 0
+    for i in range(len(그램)):
+        인덱스 = idx
+        if not 스택 :
+            스택.append((idx, 그램[i]))
+            idx += 1
+            continue
+        
+        while 스택:
+            막스택 = 스택[-1]
+            if 그램[i] == 막스택[1]:
+                break
 
-    while 그램:
-        높이 = 그램.pop()
-        if 길이 :
-            if 길이[-1][1] <= 높이:
-                최대너비 = max(길이[-1][1] * (index - 길이[-1][0] + 1), 최대너비)
-                뺀놈 = 길이.pop()
-                길이.append((뺀놈[0], 높이))
-            else:
-                길이.append((index, 높이))
-        else :
-            길이.append((index, 높이))
-        index += 1
-    최종길이 = [(index - 길이[-1][0]) * 길이[-1][1]]
-    for i in range(1, len(길이)):
-        for j in range(i-1, len(길이)):
-            최종길이.append((길이[i][0] - 길이[j][0] -1) * 길이[j][1])
-    print(길이, max(최대너비, max(최종길이)))
-
-# def 고르기(높이, 그램):
-#     global 최대너비
-#     if not len(테스트) :
-#         return
-#     다음 = 테스트.pop()
-#     if 다음 * len(그램) <= 최대너비:
-#         return
-#     # if 높이 * len(그램) <= 최대너비:
-#     #     return
-#     # if 높이 < 최소높이 :
-#     #     최대너비 = max(최대너비, 높이 * len(n))
-#     #     return
-#     for i in range(len(그램)):
-#         if 그램[i] >= 높이:
-#             cnt = 1
-#             for j in range(i+1, len(그램)):
-#                 if 그램[j] < 높이 :
-#                     break
-#                 else :
-#                     cnt += 1
-#             최대너비 = max(최대너비, 높이 * cnt)
-#     고르기(다음, 그램)
-# for i in range(len(n)):
-#     # 최대너비 = max(테스트)
-#     테스트 = copy.deepcopy(n[i])
-#     테스트.sort()
-#     최소높이 = min(테스트)
-#     최대너비 = max(테스트)
-#     고르기(테스트.pop(), n[i])
-#     print(최대너비)
+            if 그램[i] < 막스택[1]:
+                최대너비 = max(최대너비, 막스택[1] * (idx - 막스택[0]))
+                인덱스 = 스택.pop()[0]
+            else :
+                스택.append((인덱스, 그램[i]))
+                break   
+        if not 스택:
+            스택.append((인덱스, 그램[i])) 
+        idx += 1    
+    if 스택:
+        now_idx = len(그램)
+        for ele in 스택:
+            idx, h = ele
+            최대너비 = max((now_idx - idx) * h, 최대너비)
+    print(최대너비)
